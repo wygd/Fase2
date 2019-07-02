@@ -35,11 +35,57 @@ El siguiente comando te permitirá que todo está instalado correctamente.
     docker-compose --version
     docker-compose version 1.17.0, build 1719ceb
     
+---- instalacin de una servidor apache con php con docker compose --
+1) Crearmoes una carpeta con el nombre Pagina
+
+        mkdir Pagina
+         
+      
+2) Ingresaremos a la carpeta creada y creamos un archivo llamado index.php
+
+
+        cd Pagina
+        nano index.php
+
+3) Creamos un documento dockerfiel
+    
+      
+        nano dockerfile
+4) Dentro del documento dockerfile agregaremos el siguiente contenido.
+
+        FROM php:7.0-apache
+        COPY . /home/ubuntu/Pagina
+        WORKDIR /home/ubuntu/Pagina
+        
+5) Ya con el dockerfile encontrado procederemos la imagen a utilizar dentro de nuestro sistema.
+
+        sudo docker build -t servidor2 .
+        
+6) Ahora crearemos un archivo .yml con el nombre de docker-compose
+
+       nano docker-compose.yml
+       
+7)Agregamos el contenido siguiente al archivo creado con anterioridad.
+
+    # ./docker-compose.yml
+
+    version: '3.3'
+    services:
+    apache:
+      image: servidor2
+      ports:
+      - '80:80'
+    volumes:
+      - ~/Pagina:/var/www/html
+
+8) y creamos en contenedor por medio del comando.
+
+        sudo docker-compose up -d   
+
 # TERRAFORM
 Cuanto más grande se vuelve un servicio, más complicado se hace la administración y la operación del mismo de manera manual. La solución a todos estos problemas pasaría por disponer de una herramienta que nos permita modelar nuestra infraestructura como código, pero que sea agnóstica al entorno cloud donde se ejecute.
 Terraform es un software de infraestructura como código desarrollado por HashiCorp. Permite a los usuarios definir y configurar la infraestructura de un centro de datos en un lenguaje de alto nivel, generando un plan de ejecución para desplegar la infraestructura en OpenStack. HashiCorp Terraform permite crear, cambiar y mejorar la infraestructura de manera predecible y segura. Es una herramienta de código abierto que codifica las API en archivos de configuración declarativos que pueden compartirse entre los miembros del equipo, tratarse como código, editarse, revisarse y versionarse.
 
-# CLOUD FORMATION
 
 # RANCHER
 RancherOS es un pequeño sistema operativo que está específicamente orientado a trabajar con el popular Docker, de hecho, el sistema operativo ocupa tan solo 20MB debido a que tiene únicamente lo básico para ejecutar Docker e incorporarle una gran cantidad de funcionalidades. Todo en RancherOS es gestionado por Docker, tanto los servicios del sistema, como udev como rsyslog. Por tanto, RancherOS es simplemente la base para posteriormente ejecutar cualquier software a través de Docker, todo en RancherOS se ejecuta en estos contenedores. RancherOS es la forma más pequeña y fácil de ejecutar Docker en producción. Cada proceso en RancherOS es un contenedor administrado por Docker. Esto incluye servicios del sistema como udevy syslog. Como solo incluye los servicios necesarios para ejecutar Docker, RancherOS es significativamente más pequeño que la mayoría de los sistemas operativos tradicionales. Al eliminar bibliotecas y servicios innecesarios, también se reducen los requisitos de parches de seguridad y otros tipos de mantenimiento. Esto es posible porque, con Docker, los usuarios normalmente empaquetan todas las bibliotecas necesarias en sus contenedores. Otra forma en la que RancherOS está diseñado específicamente para ejecutar Docker es que siempre ejecuta la última versión de Docker. Esto permite a los usuarios aprovechar las últimas capacidades y correcciones de errores de Docker.
