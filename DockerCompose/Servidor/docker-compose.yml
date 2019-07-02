@@ -1,0 +1,10 @@
+# ./docker-compose.yml
+
+version: '3.3'
+services:
+  apache:
+    image: servidor2
+    ports:
+      - '80:80'
+    volumes:
+      - ~/Pagina:/var/www/html
