@@ -1,1 +1,3 @@
-Dokce
+FROM php:7.0-apache
+COPY . /home/ubuntu/Pagina
+WORKDIR /home/ubuntu/Pagina
